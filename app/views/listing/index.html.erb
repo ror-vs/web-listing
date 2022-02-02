@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+<div class="main_div">
+  <h2> Listing Graph</h2>
+
+  <button class="button button1 " id="table_div">Table</button>
+  <button class="button button2" id="graph_div">Graph</button>
+
+  <div class="graph_div">
+    <%= line_chart @graph_data , ytitle: "Listing Count", xtitle: "Month" %>
+  </div>
+  <div class="table_div" style="margin: 10px">
+    <h1>Listing Table</h1>
+    <table class="table" id="myTable">
+      <thead>
+      <tr>
+        <th>List Id</th>
+        <th>Website/Broker</th>
+        <th>Listing month</th>
+        <th>Listing count</th>
+        <th>Revenue</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @data.each do |list| %>
+        <% JSON.parse(list[:data]).each do |avg| %>
+          <tr>
+            <td><%= list[:id] %></td>
+            <td><%= list[:name] %></td>
+            <td><%= Date.new(avg["year"], avg["month"], -1) %></td>
+            <td><%= avg["listing_count"] %></td>
+            <td><%= avg["avg"]&.to_f&.round(2)  %></td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+    <br>
+  </div>
+</div>
