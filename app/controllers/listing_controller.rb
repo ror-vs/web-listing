@@ -4,8 +4,7 @@ class ListingController < ApplicationController
       {
         id: site.id,
         name: site.title,
-        # data: site.deals.where("DATE(created_at) >= ? AND DATE(created_at) <= ?", Date.new(2020, 11, 1), Date.new(2021, 11, 30))
-        data: site.deals
+        data: site.deals.where("DATE(created_at) >= ? AND DATE(created_at) <= ?", Date.new(2020, 11, 1), Date.new(2021, 11, 30))
                   .select("avg(revenue) as avg, count(deals.id) as listing_count,EXTRACT('month' FROM deals.created_at) as month, EXTRACT('year' FROM deals.created_at) as year")
                   .group("month,year").to_json
       }
